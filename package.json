@@ -4,7 +4,7 @@
   "description": "",
   "main": "./dist/index.js",
   "bin": {
-    "pizza": "./dist/index.js"
+    "noex": "./dist/index.js"
   },
   "type": "module",
   "scripts": {

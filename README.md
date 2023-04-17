@@ -1,4 +1,4 @@
-# NOEX-CLI v1.2.1
+# NOEX-CLI v1.2.3
 
 Noex-CLI is a powerful command-line tool for creating and managing Noex applications, which are built on top of Node.js and Express. It provides a streamlined workflow for developers to create robust and scalable web applications, with built-in features for security and database management.
 
@@ -31,7 +31,7 @@ Noex-CLI includes built-in security features to help developers create secure we
 
 ### Database Management
 
-Noex-CLI simplifies database management in Noex applications. It includes pre-configured options for popular databases like MongoDB, MySQL, and PostgreSQL, making it easy to set up and configure database connections.
+Noex-CLI simplifies database management in Noex applications. It includes pre-configured options for popular databases like MongoDB and MySQL making it easy to set up and configure database connections.
 
 ### Scalability
 
@@ -51,7 +51,7 @@ noex new my-app
 noex new Blog
 ```
 
-Cretae new module in MongoDB or MYSQL
+Create new module in MongoDB or MYSQL
 
 ```bash
 noex generate module-name
@@ -59,13 +59,13 @@ noex generate module-name
 noex generate post
 ```
 
-Run NOEX Application
+Setup NOEX Application
 
 ```bash
-noex start
+noex init
 
 cd Blog
-noex run
+noex init
 ```
 
 To access the help documentation for Noex-CLI, you can use the following command:

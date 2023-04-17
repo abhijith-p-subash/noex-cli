@@ -18,7 +18,7 @@ console.log(gradient.cristal(figlet.textSync("NOEX - CLI")));
 program
   .name("NOEX CLI")
   .description("Create Nodejs Express project with minimum effort")
-  .version("noex v1.2.1", "-v, --version", "output the the version number");
+  .version("noex v1.2.3", "-v, --version", "output the the version number");
 
 program
   .command("info")
@@ -111,8 +111,8 @@ program
   });
 
 program
-  .command("start")
-  .description("Run NOEX Application")
+  .command("init")
+  .description("Setup NOEX Application")
   .action(async () => {
     try {
       const spinner = createSpinner(
@@ -132,13 +132,7 @@ program
             }
           });
         } else {
-          exec("npm run dev", async (err) => {
-            if (err) {
-              console.log(chalk.redBright(err));
-            } else {
-              spinner.success({ text: "Setup Completed...👍" });
-            }
-          });
+          spinner.success({ text: "Setup Completed...👍" });
         }
       });
     } catch (error) {

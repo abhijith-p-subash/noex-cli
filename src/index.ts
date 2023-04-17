@@ -77,7 +77,7 @@ program
       const spinner = createSpinner(
         `${module_name} Creating.. Please wait... `
       ).start();
-      exec(`gulp new ${module_name} -mongo`, (err, stdout, stderr) => {
+      exec(`gulp new -module ${module_name} -mongo`, (err, stdout, stderr) => {
         if (err) {
           spinner.error({ text: chalk.redBright(`💀💀💀 Failed to create`) });
           console.log(chalk.redBright(err));
@@ -93,7 +93,7 @@ program
       const spinner = createSpinner(
         `${module_name.upp} Creating.. Please wait... `
       ).start();
-      exec(`gulp new ${module_name}`, (err, stdout, stderr) => {
+      exec(`gulp new -module ${module_name}`, (err, stdout, stderr) => {
         if (err) {
           spinner.error({ text: chalk.redBright(`💀💀💀 Failed to create`) });
           console.log(chalk.redBright(err));
@@ -132,7 +132,13 @@ program
             }
           });
         } else {
-          spinner.success({ text: "Setup Completed...👍" });
+          exec("npm run dev", async (err) => {
+            if (err) {
+              console.log(chalk.redBright(err));
+            } else {
+              spinner.success({ text: "Setup Completed...👍" });
+            }
+          });
         }
       });
     } catch (error) {

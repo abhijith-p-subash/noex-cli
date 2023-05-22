@@ -1,3 +1,5 @@
+![Image Description](https://github.com/sixbeeshades/noex-cli/blob/main/banner.png)
+
 # NOEX-CLI
 
 Noex-CLI is a powerful command-line tool for creating and managing Noex applications, which are built on top of Node.js and Express. It provides a streamlined workflow for developers to create robust and scalable web applications, with built-in features for security and database management.

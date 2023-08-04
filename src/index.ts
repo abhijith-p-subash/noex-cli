@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import fs from "fs";
 import chalk from "chalk";
 import figlet from "figlet";
 import gradient from "gradient-string";
@@ -8,10 +9,22 @@ import boxen from "boxen";
 import { createSpinner } from "nanospinner";
 import { Command } from "commander";
 import { exec } from "child_process";
+import { promisify } from "util";
 
-import { Info, delay } from "./utils/helper.js";
+import {
+  Info,
+  delay,
+  gitClone,
+  initializeGit,
+  initializeNpmInstall,
+  promptQuestion,
+  removeGitFolder,
+} from "./utils/helper.js";
+import path from "path";
+import cliProgress from "cli-progress";
 
 const program = new Command();
+const execAsync = promisify(exec);
 
 console.log(gradient.cristal(figlet.textSync("NOEX - CLI")));
 
@@ -24,6 +37,21 @@ program
   .command("info")
   .description("Generate info about NOEX CLI")
   .action(() => {
+    try {
+      // Read the JSON data from the file
+      const jsonData = fs.readFileSync("data.json", "utf-8");
+
+      // Parse the JSON data back to an object
+      const data = JSON.parse(jsonData);
+
+      // Log the data
+      console.log("Data from the JSON file:");
+      console.log(data);
+    } catch (error: any) {
+      // If the file doesn't exist or there's an error reading the file, handle the error here
+      console.error("Error reading data.json:", error.message);
+    }
+
     console.log(
       boxen(Info(), {
         padding: 1,
@@ -33,30 +61,63 @@ program
 
 program
   .command("new <name>")
-  .description("Generate NOEX Application") // Define an option for the command
+  .description("Generate NOEX Application")
   .action(async (name) => {
-    // const db = await inquirer.prompt({
-    //   name: "database",
-    //   type: "list",
-    //   message: "Select DataBase\n",
-    //   choices: ["MongoDB", "MySQL"],
-    // });
-    const spinner = createSpinner("Project Creating...").start();
-    exec(
-      `git clone https://github.com/sixbeeshades/nox_framework.git ${name}`,
-      (err, stdout, stderr) => {
-        if (err) {
-          spinner.error({ text: chalk.redBright(`💀💀💀 Failed to create`) });
-          console.log(chalk.redBright(err));
-          process.exit(1);
-          return;
-        }
-        spinner.success({
-          text: chalk.greenBright("Project Created Successfully...👍"),
-        });
-        process.exit(0);
-      }
+    const db = await promptQuestion("database", "list", "Select DataBase\n", [
+      "MongoDB",
+      "MySQL",
+    ]);
+    const isGitInit = await promptQuestion(
+      "gitInit",
+      "list",
+      "Do you want to initialize Git (Recommended*)\n",
+      ["Yes", "No"]
     );
+    const isNpmInit = await promptQuestion(
+      "npmInit",
+      "list",
+      "Do you want to install node module (Recommended*)\n",
+      ["Yes", "No"]
+    );
+
+    const spinner = createSpinner("Project Creating...\n").start();
+
+    try {
+      await gitClone(db.database, name);
+
+      await removeGitFolder(name);
+
+      const tasks = [];
+      if (isGitInit.gitInit === "Yes") {
+        tasks.push(initializeGit(name));
+      }
+      if (isNpmInit.npmInit === "Yes") {
+        tasks.push(initializeNpmInstall(name));
+      }
+      await Promise.all(tasks);
+
+      const noexConfig = {
+        name: "NOEX FRAME_WORK V2",
+        db: db.database,
+        git: isGitInit.gitInit === "Yes" ? true : false,
+        npm: isNpmInit.npmInit === "Yes" ? true : false,
+        created_at: new Date().toISOString(),
+      };
+
+      const configFilePath = path.join(name, "noex.config.json");
+
+      fs.writeFileSync(configFilePath, JSON.stringify(noexConfig, null, 2));
+
+      spinner.success({
+        text: chalk.greenBright("Project Created Successfully...👍"),
+      });
+
+      process.exit(0);
+    } catch (err) {
+      spinner.error({ text: chalk.redBright("💀💀💀 Failed to create") });
+      console.error(chalk.redBright(err));
+      process.exit(1);
+    }
   });
 
 program

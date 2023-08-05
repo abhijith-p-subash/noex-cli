@@ -10,6 +10,7 @@ import {
   website,
 } from "./constants.js";
 import inquirer from "inquirer";
+import { createSpinner } from "nanospinner";
 
 const execAsync = promisify(exec);
 
@@ -31,6 +32,18 @@ export function delay(ms: number): Promise<void> {
 
 export function toExecute(): Promise<void> {
   return new Promise<void>((resolve) => {});
+}
+
+export async function executeCommandAsync(command: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+  });
 }
 
 export async function promptQuestion(
@@ -91,8 +104,6 @@ export async function removeGitFolder(testFolderPath: string) {
 }
 
 export async function initializeGit(testFolderPath: string) {
-  console.log("Im in theGitInIt");
-
   try {
     await execAsync(`git init`, { cwd: testFolderPath });
     console.log(chalk.greenBright("Git initialized successfully\n"));
@@ -103,12 +114,30 @@ export async function initializeGit(testFolderPath: string) {
 }
 
 export async function initializeNpmInstall(testFolderPath: string) {
-  console.log("Im in NPM");
   try {
     await execAsync(`npm install`, { cwd: testFolderPath });
     console.log(chalk.greenBright("npm install completed successfully\n"));
   } catch (err) {
     console.log(chalk.redBright("Failed to initialize npm install\n"));
     console.error(chalk.redBright(err));
+  }
+}
+
+export async function createModule(module_name: string, dbType: string) {
+  // const dbType = options === "-mongo" ? "MongoDB" : "MySQL";
+  const options = dbType === "MongoDB" ? "-mongo" : null;
+  const spinner = createSpinner(
+    `${module_name} Creating.. Please wait...`
+  ).start();
+
+  try {
+    await execAsync(`gulp new -module ${module_name} ${options}`);
+    spinner.success({
+      text: chalk.greenBright(`${module_name} Created Successfully...👍`),
+    });
+  } catch (err) {
+    spinner.error({ text: chalk.redBright("💀💀💀 Failed to create module") });
+    console.log(chalk.redBright(err));
+    process.exit(1);
   }
 }

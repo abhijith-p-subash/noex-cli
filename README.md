@@ -47,6 +47,8 @@ Noex-CLI includes customizable templates for generating different types of appli
 
 Create a new Noex application:
 
+You can create a project with different Database configurations using NOEX-CLI. It allows you to create a MongoDB project where all the modules and newly created modules are based on MongoDB. However, creating a MySQL project alone is not supported because the user login logs and all other logs are kept in MongoDB. During module creation, you can choose the required database, giving you the flexibility to build a versatile and scalable application tailored to your needs.
+
 ```bash
 noex new my-app
 

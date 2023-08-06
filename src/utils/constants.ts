@@ -2,7 +2,7 @@
 export const companyName = "ZETINY SYS";
 export const developerName = "Abhijith P Subash";
 export const gitRepoLink =
-  "https://github.com/sixbeeshades/nox_framework_v2_mongo.git";
+  "https://github.com/sixbeeshades/nox_framework_v2.git";
 export const linkedinLink =
   "https://www.linkedin.com/in/abhijith-p-subash-the-engineer/";
 

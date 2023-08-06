@@ -62,7 +62,7 @@ export async function promptQuestion(
 
 export async function gitClone(db: string, name: string) {
   try {
-    let branch = db === "MongoDB" ? "master" : "v2_sql";
+    let branch = db === "MongoDB" ? "v2_mongo" : "v2_sql";
     await execAsync(
       `git clone --single-branch --branch ${branch} ${gitRepoLink} ${name}`
     );

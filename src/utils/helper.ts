@@ -125,7 +125,7 @@ export async function initializeNpmInstall(testFolderPath: string) {
 
 export async function createModule(module_name: string, dbType: string) {
   // const dbType = options === "-mongo" ? "MongoDB" : "MySQL";
-  const options = dbType === "MongoDB" ? "-mongo" : null;
+  const options = dbType === "MongoDB" ? "-mongo" : "";
   const spinner = createSpinner(
     `${module_name} Creating.. Please wait...`
   ).start();

@@ -113,11 +113,12 @@ program
               "MongoDB",
               "MySQL",
             ])
-          : data.db;
-      if (dbType === "MongoDB") {
-        await createModule(module_name, dbType);
-      } else if (dbType === "MySQL") {
-        await createModule(module_name, dbType);
+          : { database: data.db };
+
+      if (dbType.database === "MongoDB") {
+        await createModule(module_name, dbType.database);
+      } else if (dbType.database === "MySQL") {
+        await createModule(module_name, dbType.database);
       } else {
         console.log(chalk.red("Please Select the correct Database"));
       }

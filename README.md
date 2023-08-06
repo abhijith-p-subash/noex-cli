@@ -61,15 +61,6 @@ noex generate module-name
 noex generate post
 ```
 
-Setup NOEX Application
-
-```bash
-noex init
-
-cd Blog
-noex init
-```
-
 To access the help documentation for Noex-CLI, you can use the following command:
 
 ```bash
@@ -79,6 +70,12 @@ noex -h
 ## Conclusion
 
 Noex-CLI is a powerful and versatile command-line tool for creating and managing Noex applications. With its rich features and customizable templates, it provides developers with a seamless workflow for building secure, scalable, and efficient web applications. Give it a try and experience the power of Noex-CLI in your Noex projects today!
+
+## Support
+
+If you find Noex-CLI helpful, consider buying me a coffee to support further development:
+
+[Buy Me A Coffee](https://www.buymeacoffee.com/abhijithpsubash)
 
 #### Contact me
 

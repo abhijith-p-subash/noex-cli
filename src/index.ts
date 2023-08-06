@@ -26,7 +26,7 @@ console.log(gradient.cristal(figlet.textSync("NOEX - CLI")));
 program
   .name("NOEX CLI")
   .description("Create Nodejs Express project with minimum effort")
-  .version("noex v2.0.2", "-v, --version", "output the the version number");
+  .version("noex v2.0.3", "-v, --version", "output the the version number");
 
 program
   .command("info")
